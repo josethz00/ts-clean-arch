@@ -1,6 +1,6 @@
 # Domain
 
-## Domain is a layer of clean architecture, this layer can be considered as the core of the application. The domain layer is responsible for the maintaining the entities of the application.
+## Domain is a layer of clean architecture, this layer can be considered as the core of the application. The domain layer is responsible for maintaining the entities of the application.
 
 &nbsp;
 

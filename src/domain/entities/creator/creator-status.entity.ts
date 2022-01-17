@@ -1,4 +1,4 @@
-import { IStatus, ITimestamps } from '../definitions';
+import { IStatus, ITimestamps } from '../../definitions';
 
 interface ICreatorStatusEntity extends IStatus, ITimestamps {
   id: string;

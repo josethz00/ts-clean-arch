@@ -1,7 +1,7 @@
-import { ITimestamps } from '../definitions';
+import { ITimestamps } from '../../definitions';
 import { ICreatorAddressEntity } from './creator-address.entity';
 import { ICreatorStatusEntity } from './creator-status.entity';
-import { ISubscriptionEntity } from './subscriptions.entity';
+import { ISubscriptionEntity } from '../subscriptions/subscription.entity';
 
 interface ICreatorEntityRelations {
   subscriptions: ISubscriptionEntity[];

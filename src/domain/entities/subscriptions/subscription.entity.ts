@@ -1,4 +1,4 @@
-import { ITimestamps } from '../definitions';
+import { ITimestamps } from '../../definitions';
 
 interface ISubscriptionEntity extends ITimestamps {
   id: string;
