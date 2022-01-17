@@ -1,6 +1,6 @@
 {
   "name": "ms-base",
-  "version": "1.0.0",
+  "version": "2.7.1",
   "main": "index.js",
   "license": "MIT",
   "scripts": {

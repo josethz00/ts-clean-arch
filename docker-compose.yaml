@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  db:
+    build:
+      context: config/.docker/postgres/
+      dockerfile: Dockerfile.dev
+    networks:
+      - user-network
+    container_name: ms-base-db-container
+    environment:
+      POSTGRES_USER: ms-base-db
+      POSTGRES_PASSWORD: ms-base-db
+      POSTGRES_DB: ms-base-db
+    networks:
+      - user-network
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ms-base-db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  user-network:
+    driver: bridge
+  proxynet:
+    name: custom_network

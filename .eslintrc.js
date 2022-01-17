@@ -23,5 +23,11 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     'require-jsdoc': 1,
+    "@typescript-eslint/explicit-member-accessibility": [
+      'error',
+      {
+        overrides: { constructors: 'off' } 
+      }
+    ],
   },
 };
