@@ -9,3 +9,78 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id                String         @id @default(uuid())
+  username          String         @unique
+  email             String         @unique
+  birthday          DateTime
+  password          String
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @default(now())
+  userSubscriptions Subscription[]
+  userStatus        UserStatus?
+}
+
+model Subscription {
+  id        String   @id @default(uuid())
+  userId    String
+  creatorId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  creator   Creator  @relation(fields: [creatorId], references: [id])
+}
+
+model UserStatus {
+  id                String   @id @default(uuid())
+  userId            String   @unique
+  isBlocked         Boolean
+  isDeleted         Boolean
+  isVerified        Boolean
+  isPermanentBanned Boolean
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @default(now())
+  user              User     @relation(fields: [userId], references: [id])
+}
+
+model Creator {
+  id                   String          @id @default(uuid())
+  username             String          @unique
+  email                String          @unique
+  phone                String          @unique
+  birthday             DateTime
+  password             String
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @default(now())
+  creatorSubscriptions Subscription[]
+  creatorStatus        CreatorStatus?
+  creatorAddress       CreatorAddress?
+  creatorStatusId      String          @unique
+  creatorAddressId     String          @unique
+}
+
+model CreatorStatus {
+  id                String   @id @default(uuid())
+  creatorId         String   @unique
+  isBlocked         Boolean
+  isDeleted         Boolean
+  isVerified        Boolean
+  isPermanentBanned Boolean
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @default(now())
+  creator           Creator  @relation(fields: [creatorId], references: [id])
+}
+
+model CreatorAddress {
+  id        String   @id @default(uuid())
+  creatorId String   @unique
+  street    String
+  number    Int
+  city      String
+  state     String
+  zipcode   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  creator   Creator  @relation(fields: [creatorId], references: [id])
+}
