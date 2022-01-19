@@ -1,12 +1,9 @@
-import {
-  IInputCreateUserDto,
-  IOutputCreateUserDto,
-} from '@/business/types/dtos/user/create-user.dto';
+import { IInputCreateUserDto, IOutputCreateUserDto } from '@/business/types';
 import { left, right } from '@/shared/either';
-import { IUserRepository } from '@/business/repositories/user/user.repository';
-import { IHasherService } from '@/business/services/hasher/hasher.service';
+import { IUserRepository } from '@/business/repositories';
+import { IHasherService } from '@/business/services';
 import { IAbstractUseCase } from '../abstract.usecase';
-import { UserEntity } from '@/domain/entities/user/user.entity';
+import { UserEntity } from '@/domain/entities';
 import { UsersErrors } from '@/business/errors';
 
 class CreateUserUseCase

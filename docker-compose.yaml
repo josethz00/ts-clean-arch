@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  db:
+  msbasedb:
     build:
       context: config/.docker/postgres/
       dockerfile: Dockerfile.dev
@@ -15,7 +15,7 @@ services:
     networks:
       - user-network
     ports:
-      - "8000:8000"
+      - "8000:5432"
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ms-base-db"]
