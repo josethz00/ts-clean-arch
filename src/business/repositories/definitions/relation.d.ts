@@ -1,7 +1,5 @@
-interface IRelation<TN = string, CTC = string, FJC = string> {
-  tableName: TN;
-  currentTableColumn: CTC;
-  foreignJoinColumn: FJC;
-}
+type IRelation<TN extends string> = {
+  [key in TN]: boolean;
+};
 
 export { IRelation };

@@ -1,31 +1,46 @@
-import { IUserEntity } from '@/domain/entities';
+import { IUserEntity, IUserEntityRelations } from '@/domain/entities';
+import { IPagination } from '../definitions/pagination';
 import { IRelation } from '../definitions/relation';
 import { IWhere } from '../definitions/where';
 
-export const IUserRepositoryToken = Symbol.for('IUserRepositoryToken');
+type UserEntityKeys = keyof Omit<IUserEntity, 'password'>;
 
-export type UserEntityKeys = keyof Omit<
-  IUserEntity,
-  'role' | 'password' | 'created_at' | 'updated_at'
->;
+type UserEntityRelationsKeys = keyof IUserEntityRelations;
 
-export interface IInputUpdateUser {
-  updateWhere: IWhere<UserEntityKeys, string | number>;
+type UserUniqueWhere = keyof Pick<IUserEntity, 'id' | 'email' | 'username'>;
+
+interface IInputUpdateUser {
+  updateWhere: IWhere<UserUniqueWhere, IUserEntity[UserUniqueWhere]>;
   newData: Partial<IUserEntity>;
 }
 
-export interface IInputDeleteUser {
-  deleteWhere: IWhere<UserEntityKeys, string | number>;
+interface IInputDeleteUser {
+  deleteWhere: IWhere<UserUniqueWhere, IUserEntity[UserUniqueWhere]>;
 }
 
-export interface IUserRepository {
-  findAll(): Promise<IUserEntity[]>;
-  create(inputUserEntity: Omit<IUserEntity, 'id'>): Promise<IUserEntity>;
-  findBy(
-    type: UserEntityKeys,
-    key: IUserEntity[UserEntityKeys],
-    relations?: IRelation<string, UserEntityKeys>[],
-  ): Promise<void | IUserEntity>;
-  update(input: IInputUpdateUser): Promise<Partial<IUserEntity> | void>;
-  delete(input: IInputDeleteUser): Promise<void>;
+interface IInputFindUser {
+  columns: UserEntityKeys[];
+  values: IUserEntity[UserEntityKeys][];
+  relations?: IRelation<UserEntityRelationsKeys>;
+  pagination?: IPagination;
 }
+
+interface IUserRepository {
+  findAll(pagination?: IPagination): Promise<IUserEntity[]>;
+  create(inputUserEntity: Omit<IUserEntity, 'id'>): Promise<IUserEntity>;
+  findBy(inputFindUser: IInputFindUser): Promise<IUserEntity[]>;
+  findOneBy(inputFindUser: IInputFindUser): Promise<IUserEntity | void>;
+  update(
+    inputUpdateUser: IInputUpdateUser,
+  ): Promise<Partial<IUserEntity> | void>;
+  delete(inputDeleteUser: IInputDeleteUser): Promise<void>;
+}
+
+export {
+  UserEntityKeys,
+  IInputUpdateUser,
+  IInputDeleteUser,
+  IUserRepository,
+  UserEntityRelationsKeys,
+  IInputFindUser,
+};
