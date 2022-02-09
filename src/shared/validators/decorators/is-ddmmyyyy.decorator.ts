@@ -39,7 +39,7 @@ class IsDDMMYYYYValidationRule implements IValidationRule {
       return `${key} is not a valid dd/mm/yyyy date`;
     }
 
-    target[key] = dateConvertedToTimestamp;
+    target[key] = isoFormattedStr;
 
     return null;
   }

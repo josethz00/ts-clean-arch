@@ -17,17 +17,27 @@ module.exports = {
   },
   ignorePatterns: ['.eslintrc.js'],
   rules: {
-    'semi': [2, 'always'],
+    semi: [2, 'always'],
     '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    'require-jsdoc': 1,
-    "@typescript-eslint/explicit-member-accessibility": [
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    'require-jsdoc': ["error", {
+      "require": {
+        "FunctionDeclaration": true,
+        "MethodDefinition": true,
+        "ClassDeclaration": false,
+        "ArrowFunctionExpression": true,
+        "FunctionExpression": false
+      }
+    }],
+    '@typescript-eslint/explicit-member-accessibility': [
       'error',
       {
-        overrides: { constructors: 'off' } 
-      }
+        overrides: { constructors: 'off' },
+      },
     ],
+    '@typescript-eslint/ban-types': 'off',
   },
 };

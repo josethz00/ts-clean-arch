@@ -5,13 +5,13 @@
  * @param {unknown[]} array2 - array of unknown type
  * @returns {{ [key: string]: any }} - object with keys(array1) and values(array2)
  */
-function concatArraysIntoObject(
+const concatArraysIntoObject = (
   array1: unknown[],
   array2: unknown[],
-): { [key: string]: any } {
-  const resultObj = {};
-  array1.forEach((el, index) => (resultObj[el as any] = array2[index]));
+): { [key: string]: any } => {
+  const resultObj: { [key: string]: any } = {};
+  array1.forEach((el, index) => (resultObj[`${el}`] = array2[index]));
   return resultObj;
-}
+};
 
 export { concatArraysIntoObject };

@@ -9,4 +9,5 @@ The configuration files are located in the `config` folder, and they are separat
 ## Folders
 
 ### `docker`
+
 ### `husky`

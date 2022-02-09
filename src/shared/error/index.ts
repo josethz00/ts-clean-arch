@@ -1,8 +1,7 @@
 interface IErrorBody {
   code: string;
-  message: string;
+  message: string | string[];
   shortMessage: string;
-  [index: string]: unknown;
 }
 
 class IError {
@@ -15,4 +14,4 @@ class IError {
   }
 }
 
-export { IError };
+export { IError, IErrorBody };

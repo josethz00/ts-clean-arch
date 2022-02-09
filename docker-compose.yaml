@@ -1,6 +1,18 @@
 version: '3'
 
 services:
+  msbaseapp:
+    build:
+      context: config/.docker/ms-base/
+      dockerfile: Dockerfile.dev
+    container_name: ms-base-container
+    ports:
+      - 8080:8080
+    volumes:
+      - .:/home/node/app
+    networks:
+      - user-network
+
   msbasedb:
     build:
       context: config/.docker/postgres/

@@ -9,6 +9,11 @@ import { UsersErrors } from '@/business/errors';
 class CreateUserUseCase
   implements IAbstractUseCase<IInputCreateUserDto, IOutputCreateUserDto>
 {
+  /**
+   * CreateUserUseCase constructor with dependencies injection
+   * @param userRepository - user repository
+   * @param hasherService - hasher service
+   */
   constructor(
     private readonly userRepository: IUserRepository,
     private readonly hasherService: IHasherService,
@@ -24,9 +29,9 @@ class CreateUserUseCase
       return left(UsersErrors.userPasswordConfirmationDoesNotMatch());
     }
 
+    const hashedPassword = await this.hasherService.create(input.password!);
     delete input.passwordConfirmation;
-
-    const hashedPassword = await this.hasherService.create(input.password);
+    delete input.password;
 
     const user = UserEntity.create({
       ...input,
@@ -35,8 +40,12 @@ class CreateUserUseCase
 
     try {
       const userEntity = await this.userRepository.create(user);
-      return right(userEntity);
+      delete userEntity.accessToken;
+      return right({
+        payload: userEntity,
+      });
     } catch (error) {
+      console.log(error);
       return left(UsersErrors.entityCreationError());
     }
   }

@@ -7,15 +7,15 @@ type UserEntityKeys = keyof Omit<IUserEntity, 'password'>;
 
 type UserEntityRelationsKeys = keyof IUserEntityRelations;
 
-type UserUniqueWhere = keyof Pick<IUserEntity, 'id' | 'email' | 'username'>;
+type UserUniqueWhereKeys = keyof Pick<IUserEntity, 'id' | 'email' | 'username'>;
 
 interface IInputUpdateUser {
-  updateWhere: IWhere<UserUniqueWhere, IUserEntity[UserUniqueWhere]>;
+  updateWhere: IWhere<UserUniqueWhereKeys, IUserEntity[UserUniqueWhereKeys]>;
   newData: Partial<IUserEntity>;
 }
 
 interface IInputDeleteUser {
-  deleteWhere: IWhere<UserUniqueWhere, IUserEntity[UserUniqueWhere]>;
+  deleteWhere: IWhere<UserUniqueWhereKeys, IUserEntity[UserUniqueWhereKeys]>;
 }
 
 interface IInputFindUser {
@@ -25,11 +25,18 @@ interface IInputFindUser {
   pagination?: IPagination;
 }
 
+interface IInputFindOneUser {
+  columns: UserUniqueWhereKeys[];
+  values: IUserEntity[UserUniqueWhereKeys][];
+  relations?: IRelation<UserEntityRelationsKeys>;
+  pagination?: IPagination;
+}
+
 interface IUserRepository {
   findAll(pagination?: IPagination): Promise<IUserEntity[]>;
   create(inputUserEntity: Omit<IUserEntity, 'id'>): Promise<IUserEntity>;
   findBy(inputFindUser: IInputFindUser): Promise<IUserEntity[]>;
-  findOneBy(inputFindUser: IInputFindUser): Promise<IUserEntity | void>;
+  findOneBy(inputFindUser: IInputFindOneUser): Promise<IUserEntity | void>;
   update(
     inputUpdateUser: IInputUpdateUser,
   ): Promise<Partial<IUserEntity> | void>;
@@ -43,4 +50,5 @@ export {
   IUserRepository,
   UserEntityRelationsKeys,
   IInputFindUser,
+  UserUniqueWhereKeys,
 };
