@@ -2,7 +2,7 @@ import { IRestResponse } from '@/business/types';
 import { AbstractController } from '@/presentation/controllers';
 import { Either } from '@/shared/either';
 import { IError } from '@/shared/error';
-import { HttpResponse } from '@/shared/utils';
+import { Http } from '@/shared/utils';
 import { Request, Response } from 'express';
 
 type Input<I> = I;
@@ -27,13 +27,13 @@ const expressRouteAdapter = <I, O>(
         throw result.value;
       }
 
-      return HttpResponse.handleSuccess(
-        result.value.statusCode ?? 200,
+      return Http.handleSuccess(
+        result.value.statusCode,
         response,
         result.value.payload,
       );
     } catch (error) {
-      return HttpResponse.handleError(error, response);
+      return Http.handleServerError(error, response);
     }
   };
 };

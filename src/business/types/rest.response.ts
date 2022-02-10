@@ -1,6 +1,6 @@
-interface IRestResponse<P> {
-  payload: P;
-  statusCode?: number;
+interface IRestResponse<P = any> {
+  payload?: P;
+  statusCode: number;
 }
 
 export { IRestResponse };

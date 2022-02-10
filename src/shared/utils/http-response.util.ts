@@ -1,19 +1,21 @@
 import { Response } from 'express';
 import { IError } from '../error';
 
-class HttpResponse {
+type HttpResponse = Response<any, Record<string, any>>;
+
+class Http {
   /**
    * This function handles the response of the request in case of success
    * @param statusCode - HTTP success status code
    * @param response - Express response object
    * @param body - Response body  (optional)
-   * @returns {Response<any, Record<string, any>>}
+   * @returns {HttpResponse}
    */
   public static handleSuccess(
     statusCode: number,
     response: Response,
     body?: any,
-  ): Response<any, Record<string, any>> {
+  ): HttpResponse {
     return response.status(statusCode).json(body);
   }
 
@@ -21,12 +23,12 @@ class HttpResponse {
    * This function handles the response of the request in case of error
    * @param error - Error object caught by an app main function
    * @param response - Express response object
-   * @returns {Response<any, Record<string, any>>}
+   * @returns {HttpResponse}
    */
-  public static handleError(
+  public static handleServerError(
     error: any,
     response: Response,
-  ): Response<any, Record<string, any>> {
+  ): HttpResponse {
     if (error instanceof IError) {
       return response.status(error.statusCode).json(error.body);
     }
@@ -39,4 +41,4 @@ class HttpResponse {
   }
 }
 
-export { HttpResponse };
+export { Http, HttpResponse };

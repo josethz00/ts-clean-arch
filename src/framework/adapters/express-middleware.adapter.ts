@@ -1,20 +1,31 @@
-import { Middleware } from '@/presentation/protocols';
-
+import { IRestResponse } from '@/business/types';
+import { IMiddleware } from '@/presentation';
 import { Request, Response, NextFunction } from 'express';
+import { IncomingHttpHeaders } from 'http';
 
-const expressMiddlewareAdapter = (middleware: Middleware) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
-    const request = {
-      accessToken: req.headers?.['x-access-token'],
-      ...(req.headers || {}),
+/**
+ *
+ * @param middleware
+ * @returns
+ */
+const expressMiddlewareAdapter = <
+  I extends IncomingHttpHeaders,
+  O extends IRestResponse,
+>(
+  middleware: IMiddleware<I, O>,
+) => {
+  return async (request: Request, response: Response, next: NextFunction) => {
+    const requestProps: IncomingHttpHeaders = {
+      authorization: request.headers?.authorization,
+      ...(request.headers || {}),
     };
-    const httpResponse = await middleware.handle(request);
-    if (httpResponse.statusCode === 200) {
-      Object.assign(req, httpResponse.body);
+    const result = await middleware.handle(requestProps as I);
+    if (result.statusCode === 200) {
+      Object.assign(request, result.payload);
       next();
     } else {
-      res.status(httpResponse.statusCode).json({
-        error: httpResponse.body.message,
+      response.status(result.statusCode).json({
+        error: result.payload,
       });
     }
   };
